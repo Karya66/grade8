@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Конспект уроку: Мультимедіа — звук (MP3, WAV, FLAC)</title>
+<style>
+:root{
+  --bg:#f7f8fb; --card:#ffffff; --text:#1c2430; --muted:#5b6472; --border:#e1e5ec;
+  --accent:#7a3ba0; --accent2:#9b59b6; --soft:#f3e9fa; --code-bg:#f1f0e8; --code:#8a3b00;
+  --ok:#1f7a3d; --ok-bg:#e7f6ec; --bad:#b3261e; --bad-bg:#fdecea;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12161c; --card:#191f27; --text:#e7ecf3; --muted:#9aa5b3; --border:#2a323d;
+    --accent:#c290e0; --accent2:#c290e0; --soft:#241c2c; --code-bg:#24211a; --code:#e0a45c;
+    --ok:#7fd99a; --ok-bg:#153420; --bad:#f2938c; --bad-bg:#3a1a18;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12161c; --card:#191f27; --text:#e7ecf3; --muted:#9aa5b3; --border:#2a323d;
+  --accent:#c290e0; --accent2:#c290e0; --soft:#241c2c; --code-bg:#24211a; --code:#e0a45c;
+  --ok:#7fd99a; --ok-bg:#153420; --bad:#f2938c; --bad-bg:#3a1a18;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px); scroll-behavior:smooth;}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--bg); color:var(--text); font-family:Georgia,'Times New Roman',serif; line-height:1.55;}
+.wrap{max-width:840px; margin:0 auto; padding:20px 18px 60px;}
+header.top{position:sticky; top:0; top:env(safe-area-inset-top,0px); background:var(--accent); color:#fff; padding:14px 18px; z-index:5; font-family:Arial,sans-serif;}
+header.top h1{margin:0; font-size:1.15rem;}
+header.top p{margin:2px 0 0; font-size:.85rem; opacity:.9;}
+nav.chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;}
+nav.chips a{font-size:.78rem; color:#fff; background:rgba(255,255,255,.2); padding:4px 9px; border-radius:12px; text-decoration:none; font-family:Arial,sans-serif;}
+h2{color:var(--accent); font-size:1.3rem; border-bottom:2px solid var(--soft); padding-bottom:6px; margin-top:38px;}
+h3{color:var(--accent2); font-size:1.05rem; margin-top:22px;}
+.card{background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin:12px 0;}
+.meta-table{width:100%; border-collapse:collapse; font-size:.92rem;}
+.meta-table td{padding:6px 8px; border:1px solid var(--border); vertical-align:top;}
+.meta-table td:first-child{width:28%; color:var(--muted); font-family:Arial,sans-serif; font-size:.85rem;}
+table.tl{width:100%; border-collapse:collapse; font-size:.88rem; margin:10px 0;}
+table.tl th,table.tl td{border:1px solid var(--border); padding:6px 7px; text-align:left; vertical-align:top;}
+table.tl th{background:var(--soft); font-family:Arial,sans-serif; font-size:.8rem; color:var(--accent);}
+code{font-family:Consolas,'Courier New',monospace; background:var(--code-bg); color:var(--code); padding:1px 5px; border-radius:4px; font-size:.9em;}
+.tag{display:inline-block; font-family:Arial,sans-serif; font-size:.72rem; background:var(--soft); color:var(--accent); padding:2px 8px; border-radius:10px; margin-left:6px;}
+.note{background:var(--soft); border-left:4px solid var(--accent2); padding:8px 12px; font-size:.9rem; margin:10px 0; border-radius:0 6px 6px 0;}
+.task{background:var(--code-bg); border:1px dashed var(--border); border-radius:8px; padding:10px 12px; margin:10px 0; font-size:.92rem;}
+.task b{color:var(--accent);}
+ol,ul{padding-left:22px;}
+li{margin-bottom:5px;}
+hr{border:none; border-top:1px solid var(--border); margin:34px 0;}
+.fmt-cards{display:grid; grid-template-columns:1fr; gap:10px; margin:12px 0;}
+@media(min-width:600px){.fmt-cards{grid-template-columns:1fr 1fr 1fr;}}
+.fmt{border:1px solid var(--border); border-radius:10px; padding:12px 14px; background:var(--card);}
+.fmt h4{margin:0 0 6px; color:var(--accent); font-family:Arial,sans-serif; font-size:1rem;}
+.fmt p{margin:4px 0; font-size:.86rem;}
+.fmt .badge{font-family:Arial,sans-serif; font-size:.7rem; padding:2px 7px; border-radius:9px; background:var(--soft); color:var(--accent);}
+/* quiz */
+#quiz .q{background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin:14px 0; font-family:Arial,sans-serif;}
+#quiz .q p.qtext{font-family:Georgia,serif; font-size:1rem; margin:0 0 10px;}
+#quiz .opts{display:flex; flex-direction:column; gap:7px;}
+#quiz button.opt{text-align:left; padding:9px 12px; border-radius:7px; border:1px solid var(--border); background:var(--bg); color:var(--text); cursor:pointer; font-size:.92rem; font-family:Arial,sans-serif;}
+#quiz button.opt:hover{border-color:var(--accent2);}
+#quiz button.opt.correct{background:var(--ok-bg); border-color:var(--ok); color:var(--ok);}
+#quiz button.opt.wrong{background:var(--bad-bg); border-color:var(--bad); color:var(--bad);}
+#quiz .expl{margin-top:9px; font-size:.85rem; color:var(--muted); display:none;}
+#quiz .expl.show{display:block;}
+#score-bar{position:sticky; bottom:0; background:var(--card); border-top:1px solid var(--border); padding:10px 16px; font-family:Arial,sans-serif; font-size:.9rem; display:flex; justify-content:space-between; align-items:center; border-radius:10px 10px 0 0; margin-top:16px; padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));}
+#score-bar b{color:var(--accent);}
+#restart{font-family:Arial,sans-serif; font-size:.82rem; background:var(--accent2); color:#fff; border:none; padding:6px 12px; border-radius:14px; cursor:pointer;}
+.footer-note{text-align:center; color:var(--muted); font-size:.8rem; margin-top:30px; font-family:Arial,sans-serif;}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Мультимедіа: звук — MP3, WAV, FLAC</h1>
+  <p>8 клас · інформатика · 45 хв</p>
+  <nav class="chips">
+    <a href="#hod">Хід уроку</a><a href="#zvuk">Що таке звук</a><a href="#dyskr">Дискретизація</a>
+    <a href="#stysn">Стиснення</a><a href="#formaty">Формати</a><a href="#zavdannya">Завдання</a><a href="#test">Тест</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+<section class="card">
+  <table class="meta-table">
+    <tr><td>Тема</td><td>Мультимедіа: звук. Формати звукових файлів MP3, WAV, FLAC</td></tr>
+    <tr><td>Клас</td><td>8</td></tr>
+    <tr><td>Тип уроку</td><td>Засвоєння нових знань</td></tr>
+    <tr><td>Мета</td><td>Розуміти, як комп'ютер зберігає звук у цифровому вигляді, чим відрізняються стиснення без втрат і з втратами, і коли обирати MP3, WAV чи FLAC</td></tr>
+  </table>
+</section>
+
+<h2 id="hod">Хід уроку (45 хв)</h2>
+<table class="tl">
+<tr><th>Час</th><th>Етап</th><th>Зміст</th></tr>
+<tr><td>0–5</td><td>Оргмомент, мотивація</td><td>Питання класу: «Пісня в телефоні важить 4 МБ, а на CD-диску — 40 МБ. Чому?» Оголошення теми.</td></tr>
+<tr><td>5–10</td><td>Актуалізація</td><td>Пригадуємо: що таке мультимедіа, які види інформації вона поєднує (текст, зображення, звук, відео).</td></tr>
+<tr><td>10–18</td><td>Звук як хвиля і цифра</td><td>Аналоговий і цифровий звук, дискретизація, частота дискретизації, глибина кодування.</td></tr>
+<tr><td>18–28</td><td>Стиснення звуку</td><td>Без втрат і з втратами: у чому різниця, чому вухо не завжди помічає «втрачене».</td></tr>
+<tr><td>28–38</td><td>Формати MP3, WAV, FLAC</td><td>Порівняння трьох форматів, приклади використання кожного.</td></tr>
+<tr><td>38–43</td><td>Практичні завдання</td><td>Учні розв'язують міні-задачі й обирають формат під ситуацію.</td></tr>
+<tr><td>43–45</td><td>Тест і рефлексія</td><td>Підсумковий тест, обговорення результатів.</td></tr>
+</table>
+
+<h2 id="zvuk">1. Що таке звук для комп'ютера</h2>
+<p>Звук у природі — це <b>неперервна хвиля</b>: тиск повітря плавно змінюється в часі. Комп'ютер уміє зберігати лише числа, тому неперервну хвилю потрібно перетворити на послідовність чисел. Цей процес називається <b>оцифруванням</b>.</p>
+<div class="note">Мікрофон перетворює звукову хвилю на електричний сигнал, а звукова карта — вимірює цей сигнал через рівні проміжки часу і записує кожне вимірювання як число.</div>
+
+<h2 id="dyskr">2. Дискретизація: як хвиля стає числами</h2>
+<p>Щоб перетворити хвилю на числа, комп'ютер робить два кроки:</p>
+<ol>
+<li><b>Дискретизація за часом.</b> Вимірює висоту хвилі багато разів на секунду. Кількість вимірювань за секунду називають <b>частотою дискретизації</b> і вимірюють у герцах (Гц) чи кілогерцах (кГц). Стандарт для музики — <code>44 100 Гц</code> (44,1 кГц): 44 100 вимірювань щосекунди.</li>
+<li><b>Квантування за рівнями.</b> Кожне вимірювання округлює до найближчого зі скінченної кількості рівнів гучності. Кількість можливих рівнів визначає <b>глибина кодування</b> (бітність): 16 біт дають 65 536 рівнів гучності, 24 біти — понад 16 мільйонів.</li>
+</ol>
+<div class="note">Чим вища частота дискретизації і глибина кодування — тим точніше цифровий запис повторює оригінальну хвилю, але й тим <b>більше місця</b> займає файл.</div>
+<div class="task"><b>Приклад.</b> Одна хвилина запису з частотою 44 100 Гц, глибиною 16 біт (2 байти), у двох каналах (стерео) важить приблизно: 44 100 × 2 × 2 × 60 ≈ <b>10,1 МБ</b> — саме стільки важить одна хвилина нестисненого звуку в форматі WAV.</div>
+
+<h2 id="stysn">3. Стиснення: без втрат і з втратами</h2>
+<p>Нестиснений запис займає багато місця, тому файли стискають. Є два принципово різні підходи:</p>
+<table class="tl">
+<tr><th>Тип стиснення</th><th>Як працює</th><th>Результат</th></tr>
+<tr><td><b>Без втрат</b> (lossless)</td><td>Прибирає лише «зайву» інформацію в записі даних (як архів ZIP), нічого зі звуку не викидає</td><td>Файл можна відновити до оригіналу біт у біт, розмір зменшується помірно</td></tr>
+<tr><td><b>З втратами</b> (lossy)</td><td>Аналізує, які звуки людське вухо чує гірше (дуже тихі або заглушені гучнішими), і прибирає саме їх</td><td>Файл значно менший, але частину звуку втрачено назавжди</td></tr>
+</table>
+<div class="note">«З втратами» не означає «погано на слух»: алгоритм спеціально прибирає те, що вухо майже не вловлює, тому різниця часто непомітна — особливо в навушниках середньої якості чи в шумному приміщенні.</div>
+
+<h2 id="formaty">4. Три формати: WAV, MP3, FLAC</h2>
+<div class="fmt-cards">
+  <div class="fmt">
+    <h4>WAV <span class="badge">без стиснення</span></h4>
+    <p>Зберігає звук «як є», без жодного стиснення.</p>
+    <p><b>Розмір:</b> найбільший (~10 МБ/хв стерео).</p>
+    <p><b>Якість:</b> максимальна, еталонна.</p>
+    <p><b>Де використовують:</b> студії звукозапису, монтаж, там, де важлива кожна деталь запису.</p>
+  </div>
+  <div class="fmt">
+    <h4>FLAC <span class="badge">без втрат</span></h4>
+    <p>Стискає файл без втрат — як «запакований» WAV.</p>
+    <p><b>Розмір:</b> середній (у 1,5–2 рази менший за WAV).</p>
+    <p><b>Якість:</b> ідентична оригіналу.</p>
+    <p><b>Де використовують:</b> архівування колекцій музики, аудіофіли, коли важлива якість, а місце є.</p>
+  </div>
+  <div class="fmt">
+    <h4>MP3 <span class="badge">з втратами</span></h4>
+    <p>Прибирає непомітні для вуха деталі — найпопулярніший формат.</p>
+    <p><b>Розмір:</b> найменший (у 5–11 разів менший за WAV, залежно від бітрейту).</p>
+    <p><b>Якість:</b> хороша, але не ідентична оригіналу.</p>
+    <p><b>Де використовують:</b> телефони, стрімінг, подкасти — там, де важливий розмір файлу й швидке завантаження.</p>
+  </div>
+</div>
+<p><b>Бітрейт MP3</b> (кбіт/с) показує, скільки даних відведено на кожну секунду звуку: що вищий бітрейт — то краща якість і більший файл. Типові значення: 128 кбіт/с (компактно, помітні втрати), 320 кбіт/с (майже не відрізнити від оригіналу на слух).</p>
+
+<hr>
+
+<h2 id="zavdannya">5. Завдання</h2>
+<div class="task"><b>Завдання 1.</b> Розсортуйте три формати за розміром файлу для однієї й тієї самої пісні: від найбільшого до найменшого.</div>
+<div class="task"><b>Завдання 2.</b> Звукорежисер записує альбом гурту в студії й хоче зберегти запис так, щоб потім можна було ще раз відредагувати кожну деталь без жодних втрат якості. Який формат обрати? Чому не MP3?</div>
+<div class="task"><b>Завдання 3.</b> У вас телефон із пам'яттю, що майже заповнена, а ви хочете взяти в дорогу 500 пісень. Який формат розумніше обрати — WAV, FLAC чи MP3 128 кбіт/с? Обґрунтуйте.</div>
+<div class="task"><b>Завдання 4.</b> Порахуйте приблизний розмір 3-хвилинного запису у форматі WAV із частотою дискретизації 44 100 Гц, глибиною 16 біт, у стерео (використайте приклад розрахунку з розділу 2).</div>
+
+<hr>
+
+<h2 id="test">Підсумковий тест</h2>
+<p style="font-family:Arial,sans-serif;color:var(--muted);font-size:.88rem;">10 запитань за матеріалом уроку. Оберіть варіант — правильна відповідь підсвітиться одразу.</p>
+<div id="quiz"></div>
+<div id="score-bar">
+  <span>Результат: <b id="score-val">0</b> / <span id="score-max">10</span></span>
+  <button id="restart">Почати заново</button>
+</div>
+
+</div>
+
+<p class="footer-note">Конспект уроку · 8 клас · Мультимедіа: звук</p>
+
+<script>
+const QUESTIONS = [
+  {q:'Як називається процес перетворення неперервної звукової хвилі на числа?', opts:[
+    'Стиснення','Оцифрування (дискретизація)','Форматування','Архівування'
+  ], correct:1, expl:'Оцифрування (дискретизація) — це вимірювання хвилі через рівні проміжки часу й запис кожного вимірювання як числа.'},
+  {q:'Що показує частота дискретизації?', opts:[
+    'Скільки байтів важить файл','Скільки разів за секунду вимірюють висоту хвилі','Гучність запису','Кількість каналів (моно/стерео)'
+  ], correct:1, expl:'Частота дискретизації (Гц) — кількість вимірювань хвилі щосекунди. Стандарт для музики — 44 100 Гц.'},
+  {q:'Стандартна частота дискретизації для звичайної музики:', opts:[
+    '441 Гц','4 410 Гц','44 100 Гц','441 000 Гц'
+  ], correct:2, expl:'44 100 Гц (44,1 кГц) — стандартна частота дискретизації аудіо-CD і більшості музичних записів.'},
+  {q:'Глибина кодування (бітність) впливає на:', opts:[
+    'Кількість можливих рівнів гучності при вимірюванні','Тривалість запису','Кількість виконавців у записі','Швидкість відтворення'
+  ], correct:0, expl:'Що більше біт відведено на кожне вимірювання, то більше рівнів гучності можна розрізнити — точніше передається звук.'},
+  {q:'У чому головна відмінність стиснення «без втрат» від стиснення «з втратами»?', opts:[
+    'Без втрат файл можна відновити біт у біт, з втратами — частину звуку прибирають назавжди','Без втрат файл більший, ніж оригінал','З втратами звук стає гучнішим','Різниці немає, це просто різні назви'
+  ], correct:0, expl:'Стиснення без втрат лише «пакує» дані компактніше, нічого не викидаючи; стиснення з втратами видаляє малопомітні деталі звуку.'},
+  {q:'Формат WAV зберігає звук:', opts:[
+    'Зі стисненням без втрат','Зі стисненням з втратами','Без жодного стиснення','Лише в моно-режимі'
+  ], correct:2, expl:'WAV — нестиснений формат: він зберігає звук «як є», тому файли найбільші за розміром.'},
+  {q:'Який формат стискає файл без втрат якості (як «запакований» WAV)?', opts:[
+    'MP3','FLAC','WAV','Усі однаково стискають з втратами'
+  ], correct:1, expl:'FLAC — формат стиснення без втрат: розмір менший за WAV, а якість лишається ідентичною оригіналу.'},
+  {q:'MP3 зменшує розмір файлу завдяки тому, що:', opts:[
+    'Скорочує тривалість запису','Прибирає деталі звуку, які вухо погано вловлює','Зменшує кількість пісень в альбомі','Записує звук у чорно-білому форматі'
+  ], correct:1, expl:'MP3 — стиснення з втратами: алгоритм аналізує, які звуки людина чує гірше, і прибирає саме їх.'},
+  {q:'Який формат найкраще підходить для архіву улюбленої музики, коли важлива якість, а місця на диску достатньо?', opts:[
+    'MP3 128 кбіт/с','FLAC','Будь-який — усі формати однакові за якістю','MP3 64 кбіт/с'
+  ], correct:1, expl:'FLAC дає якість, ідентичну оригіналу, і при цьому займає менше місця, ніж WAV — оптимально для архівування.'},
+  {q:'3-хвилинний запис WAV (44 100 Гц, 16 біт, стерео) важитиме приблизно:', opts:[
+    '3 МБ','10 МБ','30 МБ','300 МБ'
+  ], correct:2, expl:'1 хвилина такого запису ≈ 10,1 МБ, тож 3 хвилини ≈ 30 МБ (10,1 × 3 ≈ 30,3 МБ).'}
+];
+
+const root = document.getElementById('quiz');
+let score = 0;
+document.getElementById('score-max').textContent = QUESTIONS.length;
+
+function build(){
+  root.innerHTML = '';
+  score = 0;
+  document.getElementById('score-val').textContent = '0';
+  QUESTIONS.forEach((item, qi) => {
+    const div = document.createElement('div');
+    div.className = 'q';
+    const p = document.createElement('p');
+    p.className = 'qtext';
+    p.textContent = (qi+1) + '. ' + item.q;
+    div.appendChild(p);
+    const optsWrap = document.createElement('div');
+    optsWrap.className = 'opts';
+    const expl = document.createElement('div');
+    expl.className = 'expl';
+    expl.textContent = item.expl;
+    item.opts.forEach((optText, oi) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.textContent = optText;
+      btn.addEventListener('click', () => {
+        if (div.dataset.answered) return;
+        div.dataset.answered = '1';
+        [...optsWrap.children].forEach((b, bi) => {
+          if (bi === item.correct) b.classList.add('correct');
+          else if (bi === oi) b.classList.add('wrong');
+        });
+        if (oi === item.correct) { score++; document.getElementById('score-val').textContent = score; }
+        expl.classList.add('show');
+      });
+      optsWrap.appendChild(btn);
+    });
+    div.appendChild(optsWrap);
+    div.appendChild(expl);
+    root.appendChild(div);
+  });
+}
+document.getElementById('restart').addEventListener('click', build);
+build();
+</script>
+</body>
+</html>
